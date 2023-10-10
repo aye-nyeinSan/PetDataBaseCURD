@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <%- include('./component/head.ejs')%>
+  <body>
+    
+    <%- include('./component/nav.ejs')%>
+    <div class="create-blog ">
+        <form action="/appointments/create" method="POST">
+          <label for="customerName">Customer Name:</label>
+          <input type="text" id="title" name="customerName"required>
+          <label for="phoneNumber">Phone Number:</label>
+          <input type="text" id="title" name="phoneNumber"required>
+          <label for="email">email:</label>
+          <input type="text" id="title" name="email"required>
+          <label for="petName">Pet Name:</label>
+          <input type="text" id="snippet" name="petName"required>
+          <label for="age">Pet age:</label>
+          <input type="text" id="snippet" name="age"required>
+          <label for="species">Pet species:</label>
+          <input type="text" id="snippet" name="species"required>
+          <label for="medicalCondition">Medical condition:</label>
+          <input type="text" id="snippet" name="medicalCondition"required>
+          <label for="weight">Weight(kg):</label>
+          <input type="text" id="snippet" name="weight"required>
+          <label for="spaServiceName">Service(Grooming,Ear Cleaning,Nail Trimming, Bathing):</label>
+        <textarea id="body" name="spaServiceName" required></textarea>
+          <button >Submit</button>
+        </form>
+
+    </div>
+    <%- include('./component/footer.ejs')%>
+  </body>
+</html>

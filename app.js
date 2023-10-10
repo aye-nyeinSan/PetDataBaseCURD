@@ -1,4 +1,4 @@
-const mysql = require("mysql2");
+
 const express = require ("express");
 const bodyParser = require ("body-parser");
 const qbRoutes = require("./routes/qb");
@@ -24,7 +24,9 @@ app.get("/",(req,res)=>{
   });
   
 
-
+app.get("/bill/searchName/",(req,res)=>{
+  res.render('billSearch',{ title:'Bill 💰 ',bill:res});
+})
 
 app.use((req,res) => {
     res.status(404);

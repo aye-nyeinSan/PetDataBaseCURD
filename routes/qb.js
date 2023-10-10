@@ -9,7 +9,7 @@ const methodOverride=require('method-override');
 Router.use(methodOverride('_method'));
 
 // DELETE route to delete a specific booking by ID
-Router.get('/appointments/delete/:id', async (req, res) => {
+Router.get('/appointments/delete/:id',  (req, res) => {
     const bookingId = req.params.id;
     console.log("Booking ID to delete:", bookingId);
     try {
@@ -20,7 +20,7 @@ Router.get('/appointments/delete/:id', async (req, res) => {
             LEFT JOIN customer ON appointment.customerID = customer.customerID
             LEFT JOIN pet ON appointment.petID = pet.petID
             WHERE appointment.bookingID = ?`;
-          await mysqlConnection.promise().query(deleteBookingSQL, [bookingId]);
+          mysqlConnection.promise().query(deleteBookingSQL, [bookingId]);
 
     
            res.redirect('/appointments/')
@@ -135,7 +135,7 @@ Router.post("/appointments/create/", async (req, res) => {
        
          const customerID = customerResult.insertId;
         const [petResult] = await mysqlConnection.promise().
-        query("INSERT INTO pet (petName, age, species, medicalCondition, weight, customerID) VALUES (?, ?, ?, ?, ?, ?)"
+        query("INSERT INTO pet (petName, age, species, medicalCondition, weight, customerID) VALUES (?, ?, LOWER(?), ?, ?, ?)"
         , [petName, age, species, medicalCondition, weight, customerID]);
 
         const petID = petResult.insertId;
@@ -257,7 +257,38 @@ Router.put(`/appointments/:id`, async (req, res) => {
 });
 
 
+Router.get('/bill/all',(req, res) => {
+    mysqlConnection.query(
+        "SELECT * FROM bill",
+        (err,results,fields)=>{
+           if(!err){
+               res.send(results);
+           } else{
+               res.status(404);
+               console.log(err);
+           }
 
+        }
+   )
+})
+
+Router.get('/bill/search/',(req, res) => {
+    const customername = req.query.customerName;
+    mysqlConnection.query(
+        ` select billID, customer.customerName,totalPrice from bill 
+        inner join customer on customer.customerID= bill.customerID where customerName="${customername}"`,
+        (err,results,fields)=>{
+           if(!err){
+            console.log(results);
+            res.render('billShow',{title:'Bill 💰 ',bill:results});
+           } else{
+               res.status(404);
+               console.log(err);
+           }
+
+        }
+   )
+})
 
 
 module.exports= Router;

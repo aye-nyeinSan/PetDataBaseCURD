@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <%- include('./component/head.ejs')%>
+  <body>
+    
+    <%- include('./component/nav.ejs')%>
+    <div class="create-blog ">
+  
+      <form action="/appointments/<%= appointment[0].bookingID %>?_method=PUT " method="POST">
+        <label for="changeCustomerName">Change Customer Name:</label>:</label>
+        <input type="text" id="title" name="customerName" value="<%= appointment[0].customerName %>" required>
+        <label for="changePetName">Change pet Name:</label>:</label>
+        <input type="text" id="title" name="petName"  value="<%= appointment[0].petName %>" required>
+        <label for="changeService">Change Service:</label>:</label>
+        <input type="text" id="title" name="spaserviceName" value="<%= appointment[0].spaserviceName %>" required>
+
+        <button><a class="update" data-doc="<%=appointment[0].bookingID%>" > Update</a></button>
+       
+        </form> 
+
+
+    </div>
+    
+
+    <%- include('./component/footer.ejs')%>
+  </body>
+  <script>
+    const updatepost=document.querySelector("a.update");
+   
+    updatepost.addEventListener('click',(e)=>{
+      const updatebutt=`/appointments/${updatepost.dataset.doc}`;
+    fetch(updatebutt ,  {
+      method:'PUT',
+     
+    })
+    .then((res)=>{return res.json({redirect:`/appointments/`})})
+     
+      .catch((err)=>{console.log(err);})
+
+})
+
+    </script>
+</html>
